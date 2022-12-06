@@ -19,6 +19,7 @@ public class EmployeeController {
     @PostMapping(path = "/add",produces = "application/json",consumes = "application/json")
     public String AddEmployee(@RequestBody Employee e)
     {
+        System.out.println(e.toString());
         System.out.println(e.getEmpCode().toString());
         System.out.println(e.getName().toString());
         System.out.println(e.getDesignation().toString());
