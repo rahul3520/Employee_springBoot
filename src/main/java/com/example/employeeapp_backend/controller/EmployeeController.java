@@ -1,14 +1,18 @@
 package com.example.employeeapp_backend.controller;
 
 
+import com.example.employeeapp_backend.dao.EmployeeDao;
 import com.example.employeeapp_backend.model.Employee;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class EmployeeController {
+
+    @Autowired
+    private EmployeeDao dao;
 
     @GetMapping("/")
     public String WelcomePage()
@@ -16,6 +20,7 @@ public class EmployeeController {
         return "Employee Welcome page";
     }
 
+    @CrossOrigin(origins="*")
     @PostMapping(path = "/add",produces = "application/json",consumes = "application/json")
     public String AddEmployee(@RequestBody Employee e)
     {
@@ -28,31 +33,34 @@ public class EmployeeController {
         System.out.println(e.getMobileNo().toString());
         System.out.println(e.getUsername().toString());
         System.out.println(e.getPassword().toString());
+
+        dao.save(e);
         return "Employee add page";
     }
 
-//    @PostMapping(path ="/search",produces = "application/json",consumes = "application/json")
-//    public String SearchEmployee()
-//    {
-//        return "Employee search page";
-//    }
-//
-//    @PostMapping(path = "/edit",produces = "application/json",consumes = "application/json")
-//    public String EditEmployee()
-//    {
-//        return "Employee edit page";
-//    }
-//
-//    @GetMapping(path = "/viewall",produces = "application/json",consumes = "application/json")
-//    public String ViewallEmployee()
-//    {
-//        return "View all Employees page";
-//    }
-//
-//    @PostMapping(path = "/delete",produces = "application/json",consumes = "application/json")
-//    public String DeleteEmployee()
-//    {
-//        return "Delete Employee page";
-//    }
+    @PostMapping(path ="/search",produces = "application/json",consumes = "application/json")
+    public String SearchEmployee()
+    {
+        return "Employee search page";
+    }
+
+    @PostMapping(path = "/edit",produces = "application/json",consumes = "application/json")
+    public String EditEmployee()
+    {
+        return "Employee edit page";
+    }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping("/viewall")
+    public List<Employee> ViewallEmployee()
+    {
+        return (List<Employee>) dao.findAll();
+    }
+
+    @PostMapping(path = "/delete",produces = "application/json",consumes = "application/json")
+    public String DeleteEmployee()
+    {
+        return "Delete Employee page";
+    }
 
 }
