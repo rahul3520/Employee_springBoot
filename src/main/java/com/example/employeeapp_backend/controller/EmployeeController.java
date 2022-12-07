@@ -43,10 +43,13 @@ public class EmployeeController {
         return map;
     }
 
+    @CrossOrigin(origins = "*")
     @PostMapping(path ="/search",produces = "application/json",consumes = "application/json")
-    public String SearchEmployee()
+    public List<Employee> SearchEmployee(@RequestBody Employee e)
     {
-        return "Employee search page";
+        String empcode=String.valueOf(e.getEmpCode());
+        System.out.println(empcode);
+        return (List<Employee>) dao.SearchEmployee(e.getEmpCode());
     }
 
     @PostMapping(path = "/edit",produces = "application/json",consumes = "application/json")
